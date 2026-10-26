@@ -398,6 +398,61 @@
     .pc-row .k { color: #9aa5b1; width: 60px; flex-shrink: 0; }
     .pc-row .v { color: #333; flex: 1; }
 
+    /* 记录图片 / 视频缩略图 */
+    .media {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #dbe7f5;
+      background: linear-gradient(135deg, #e4effb, #cfe3f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .thumb:nth-child(3n+2) { background: linear-gradient(135deg, #e7f3ec, #d3e9dd); }
+    .thumb:nth-child(3n+3) { background: linear-gradient(135deg, #eef0f8, #dee3f1); }
+    .thumb:active { opacity: .85; }
+    .thumb.is-video { background: linear-gradient(135deg, #c9d6e6, #aec2da); }
+    .play {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 5px rgba(20,50,90,.18);
+    }
+    .play::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 8px solid #2b6fd8;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      margin-left: 2px;
+    }
+    .dur {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      font-size: 9px;
+      line-height: 1.5;
+      color: #fff;
+      background: rgba(0,0,0,.42);
+      padding: 0 3px;
+      border-radius: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
     /* 移池 */
     .move-box {
       background: #fff;
@@ -449,6 +504,49 @@
     .sh-label { font-size: 11.5px; color: #97a3b2; letter-spacing: .2px; }
     .sh-index { color: #1565c0; font-weight: 600; }
     .sh-total { color: #97a3b2; }
+
+
+    /* 大图 / 视频预览 */
+    .viewer {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,14,22,.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+    .viewer.on { display: flex; }
+    .viewer .vbox {
+      width: 86%;
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #dfeaf7, #c9dcef);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .viewer .vbox.video { background: #10161f; }
+    .viewer .vclose {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      color: #fff;
+      font-size: 26px;
+      line-height: 1;
+      opacity: .8;
+      cursor: pointer;
+    }
+    .viewer .vcap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 34px;
+      text-align: center;
+      color: rgba(255,255,255,.75);
+      font-size: 12px;
+    }
 
     /* 底部 */
     .footer {
@@ -602,6 +700,9 @@
               <div class="pc-row"><span class="k">基地</span><span class="v">千发陆基养殖基地</span></div>
               <div class="pc-row"><span class="k">车间</span><span class="v">1 号车间</span></div>
               <div class="pc-row"><span class="k">池子</span><span class="v">A-01 池</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -611,6 +712,9 @@
               <div class="pc-row"><span class="k">基地</span><span class="v">千发陆基养殖基地</span></div>
               <div class="pc-row"><span class="k">车间</span><span class="v">1 号车间</span></div>
               <div class="pc-row"><span class="k">池子</span><span class="v">A-01 池</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
           </div>
           <div class="swipe-hint">
@@ -639,6 +743,9 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">A-01 池</span></div>
               <div class="pc-row"><span class="k">物料</span><span class="v">通威 浮性配合饲料 3 号料</span></div>
               <div class="pc-row"><span class="k">数量</span><span class="v">3.2 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -650,6 +757,10 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">A-01 池</span></div>
               <div class="pc-row"><span class="k">物料</span><span class="v">通威 浮性配合饲料 3 号料</span></div>
               <div class="pc-row"><span class="k">数量</span><span class="v">4.5 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -661,6 +772,11 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">A-04 池</span></div>
               <div class="pc-row"><span class="k">物料</span><span class="v">通威 浮性配合饲料 4 号料</span></div>
               <div class="pc-row"><span class="k">数量</span><span class="v">6.0 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -672,6 +788,14 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">B-02 池</span></div>
               <div class="pc-row"><span class="k">物料</span><span class="v">通威 浮性配合饲料 4 号料</span></div>
               <div class="pc-row"><span class="k">数量</span><span class="v">7.8 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb is-video" data-type="video">
+                  <span class="play"></span>
+                  <span class="dur">00:18</span>
+                </div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -683,6 +807,9 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">B-02 池</span></div>
               <div class="pc-row"><span class="k">物料</span><span class="v">通威 浮性配合饲料 5 号料</span></div>
               <div class="pc-row"><span class="k">数量</span><span class="v">9.0 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
           </div>
           <div class="swipe-hint">
@@ -711,6 +838,9 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">A-01 池</span></div>
               <div class="pc-row"><span class="k">养护物料</span><span class="v">生石灰</span></div>
               <div class="pc-row"><span class="k">剂量</span><span class="v">8.0 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -722,6 +852,10 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">A-04 池</span></div>
               <div class="pc-row"><span class="k">养护物料</span><span class="v">二氧化氯消毒剂</span></div>
               <div class="pc-row"><span class="k">剂量</span><span class="v">0.35 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -733,6 +867,9 @@
               <div class="pc-row"><span class="k">池子</span><span class="v">B-02 池</span></div>
               <div class="pc-row"><span class="k">养护物料</span><span class="v">复合芽孢杆菌</span></div>
               <div class="pc-row"><span class="k">剂量</span><span class="v">1.2 kg</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
           </div>
           <div class="swipe-hint">
@@ -769,6 +906,10 @@
                 <div class="pc-row"><span class="k">车间</span><span class="v">1 号车间</span></div>
                 <div class="pc-row"><span class="k">池子</span><span class="v">A-04 池</span></div>
               </div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+              </div>
             </div>
             <div class="proc-card">
               <div class="pc-top">
@@ -787,6 +928,11 @@
                 <div class="pc-row"><span class="k">基地</span><span class="v">千发陆基养殖基地</span></div>
                 <div class="pc-row"><span class="k">车间</span><span class="v">2 号车间</span></div>
                 <div class="pc-row"><span class="k">池子</span><span class="v">B-02 池</span></div>
+              </div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
               </div>
             </div>
           </div>
@@ -814,6 +960,13 @@
               <div class="pc-row"><span class="k">基地</span><span class="v">千发陆基养殖基地</span></div>
               <div class="pc-row"><span class="k">车间</span><span class="v">2 号车间</span></div>
               <div class="pc-row"><span class="k">池子</span><span class="v">B-02 池</span></div>
+              <div class="media">
+                <div class="thumb" data-type="img"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7fa8cf" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.6A1.6 1.6 0 0 1 4.6 7h1.9L8 5h8l1.5 2h1.9A1.6 1.6 0 0 1 21 8.6v8.8A1.6 1.6 0 0 1 19.4 19H4.6A1.6 1.6 0 0 1 3 17.4z"/><circle cx="12" cy="12.8" r="3.2"/></svg></div>
+                <div class="thumb is-video" data-type="video">
+                  <span class="play"></span>
+                  <span class="dur">00:26</span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="swipe-hint">
@@ -836,6 +989,13 @@
     </div>
 
     <div class="footer">千岛湖渔业溯源</div>
+  </div>
+
+
+  <div class="viewer" id="viewer" onclick="closeViewer()">
+    <span class="vclose">×</span>
+    <div class="vbox" id="vbox"></div>
+    <div class="vcap" id="vcap"></div>
   </div>
 
   <div class="side-tab" onclick="showFeedback()">问题反馈</div>
@@ -921,6 +1081,38 @@
         if (moved) { e.preventDefault(); e.stopPropagation(); }
       }, true);
     });
+
+    /* 记录图片 / 视频：点击看大图、播放 */
+    var viewer = document.getElementById('viewer');
+    var vbox = document.getElementById('vbox');
+    var vcap = document.getElementById('vcap');
+
+    document.querySelectorAll('.thumb').forEach(function (th) {
+      th.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var card = th.closest('.proc-card');
+        var time = card.querySelector('.pc-time').textContent;
+        var step = card.closest('.step').querySelector('.step-name').textContent;
+        var isVideo = th.getAttribute('data-type') === 'video';
+
+        vbox.className = 'vbox' + (isVideo ? ' video' : '');
+        if (isVideo) {
+          vbox.innerHTML = '<div style="width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.9);' +
+            'display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.4)">' +
+            '<span style="width:0;height:0;border-left:16px solid #2b6fd8;border-top:10px solid transparent;' +
+            'border-bottom:10px solid transparent;margin-left:4px"></span></div>';
+          vcap.textContent = step + ' · ' + time + ' · 视频';
+        } else {
+          vbox.innerHTML = '';
+          vcap.textContent = step + ' · ' + time + ' · 现场图片';
+        }
+        viewer.classList.add('on');
+      });
+    });
+
+    function closeViewer() {
+      viewer.classList.remove('on');
+    }
 
     function showCert(name) {
       alert(name + ' 在线预览功能开发中');
